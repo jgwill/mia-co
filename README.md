@@ -1,54 +1,151 @@
-# mia-co
+# 🧠 mia-co — the Engineering-World terminal agent
 
-Lightweight public landing page for the published `mia-co` npm package.
+**miaco** (mee-AH-koh) is the command-line embodiment of **Mia, the Recursive DevOps Architect**. You hand it a messy, half-formed prompt; it hands you back a *structured decomposition* you can reason about, search against your own memory, and advance into real work.
 
-`mia-co` installs the `miaco` CLI: an Engineering World terminal agent for prompt decomposition, structural tension charts, schema/validation helpers, tracing, and QMD-backed inquiry workflows.
+It treats every prompt as **structural tension** — the charged space between *what you want to create* and *what is true right now* — and gives you commands that move you across that space instead of just answering you.
 
-## Install
+> The published package is **`mia-co`**; the installed binary is **`miaco`**.
+
+> 🌸 Think of miaco as a workbench, not an oracle. You don't ask it for the answer; you watch your intention get laid out in the open, its blind spots flagged, its memory consulted, until the next move is obvious.
+
+---
+
+## 🛠️ Install
 
 ```bash
 npm install -g mia-co
-miaco --help
+miaco --help            # every command + live env-var values
 ```
 
-## Quick Use
+Then:
 
 ```bash
-miaco status
-miaco examples
-miaco decompose run -p "Map this prompt into actionable work"
-miaco continue --pde <uuid>
-miaco steer --pde <uuid> -p "Refine the next step"
-miaco qmd search "structural tension"
+miaco examples          # copy-paste starting points
+miaco decompose run -p "your first prompt"
 ```
 
-## Main Commands
+---
 
-- `decompose`: create a PDE prompt decomposition with Copilot, Claude, Gemini, Codex, PVA, or Hermes.
-- `continue`: resume a PDE tree and optionally run follow-up inquiry steps.
-- `steer`: send a new prompt into an existing PDE session.
-- `pde-to-st` / `stc`: turn decompositions into structural thinking artifacts.
-- `qmd` / `qmd-inquiry-decompose`: query or enrich with QMD knowledge providers.
-- `schema`, `validate`, `trace`, `chart`, `skill`: supporting engineering-world operations.
-
-## Package Notes
-
-The published package name is `mia-co`; the installed binary is `miaco`.
-
-Current package metadata from the development workspace:
-
-- Version: `0.11.1`
-- License: `MIT`
-- Repository: `https://github.com/jgwill/mia-co`
-- Development source: `/src/mia-code/miaco`
-
-## Development
+## ✨ The experience, in one breath
 
 ```bash
-cd /src/mia-code/miaco
-npm install
-npm run build
-npm start -- --help
+miaco decompose run -p "Redesign auth to support OAuth2, SAML, and magic links \
+  without breaking the existing session-cookie flow"
 ```
 
-This repository exists as the public package landing point referenced by npm metadata.
+You get a **PDE** (Prompt Decomposition) — a folder that holds your prompt broken into:
+
+| You receive | What it gives you |
+|---|---|
+| **Primary intent** | the one thing this prompt is really asking for, with a confidence score |
+| **Secondary intents** | the implicit asks you'd otherwise miss |
+| **Four Directions** | the work mapped to Vision / Planning / Action / Reflection |
+| **Action stack** | ordered steps, with dependencies, ready to execute |
+| **Ambiguity flags** | the vague or contradictory parts — named, not silently assumed |
+
+That last row is the point. miaco doesn't pretend your prompt was clear. It tells you where it wasn't — and then gives you a way to resolve it.
+
+---
+
+## 🔁 The loop miaco is built around
+
+```
+   decompose ──▶ qmd-inquiry ──▶ clarify ──▶ continue / steer ──▶ stc
+   (structure)   (resolve from   (settle    (drive the engine    (chart the
+                  memory)         the rest)   to actually build)   tension)
+```
+
+1. **`decompose`** turns the prompt into structure — and flags what's ambiguous.
+2. **`qmd`** explores your **shared markdown memory** to *resolve those flagged ambiguities* — fast keyword search for intents, deeper semantic search where meaning matters most. The blind spots the decomposition surfaced get answered from what you already know.
+3. **`clarify`** settles the obvious placeholders that remain.
+4. **`continue` / `steer`** reopen the same session and drive a coding agent to do the work.
+5. **`stc` / `pde-to-st`** turn the resolved decomposition into a **Structural Tension Chart** you can track.
+
+> 🌸 Decomposition asks the brave question — *"what here is unclear?"* — and QMD answers it from your own remembered knowledge. The ambiguity isn't a failure; it's the doorway to the memory that resolves it.
+
+➡️ **Full per-command walkthrough: [COMMANDS.md](./COMMANDS.md)**
+
+---
+
+## 🎯 The heart: `miaco decompose run`
+
+This is the command most sessions begin with. The basics:
+
+```bash
+miaco decompose run -p "<your prompt>"          # decompose inline
+miaco decompose run -p @./prompt.md             # …or read it from a file
+miaco decompose run -p "<prompt>" --engine ollama   # …on a local model
+```
+
+What makes it powerful is **how** it decomposes. The same prompt can be broken down three different ways depending on what you need:
+
+| Strategy | The experience you get | Reach for it when |
+|---|---|---|
+| `standard` *(default)* | One clean pass. Fast, cheap, predictable. | The prompt is focused and well-defined. |
+| `iterative-refinement` | Four progressive passes — each one deepens the structure (intents → directions → actions → calibration). | The prompt is complex and interleaved; one pass comes out shallow. |
+| `adversarial-consensus` | Two opposing readings — one optimistic, one skeptical — reconciled into one. | The prompt is ambiguous or high-stakes and you want its blind spots surfaced. |
+
+```bash
+miaco decompose run -p "<prompt>" --strategy iterative-refinement
+miaco decompose run -p "<prompt>" --strategy adversarial-consensus
+```
+
+➡️ **How each strategy thinks, when to choose it, and what it costs: [STRATEGIES.md](./STRATEGIES.md)**
+
+---
+
+## 🧩 Bring your own engine
+
+Every decomposition runs on the model *you* choose — cloud or local. Pick once with a flag, or set `MIACO_DEFAULT_ENGINE` to make it the default:
+
+```
+copilot · claude · gemini · codex · pva · hermes · ollama · opencode
+```
+
+- **Cloud agents** (`copilot`, `claude`, `gemini`, `codex`, `pva`, `hermes`) capture and resume their sessions, so `continue` and `steer` pick up exactly where you left off.
+- **Local agents** (`ollama`, `opencode`) keep the whole loop on your machine — no prompt ever leaves the host.
+
+`miaco --help` lists every engine and its tuning knobs with their current values. You rarely need more than `--engine`.
+
+---
+
+## 🗂️ Everything else miaco offers
+
+Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each is one command family — full usage lives in **[COMMANDS.md](./COMMANDS.md)**.
+
+| Command | The experience |
+|---|---|
+| `qmd` | Search your shared markdown memory directly — keyword or semantic. |
+| `qmd-inquiry-decompose` | Auto-resolve a PDE's flagged ambiguities against that memory. |
+| `clarify` | Generate a clarification pass for the placeholders in a PDE tree. |
+| `continue` / `steer` | Resume a PDE session and drive the engine — interactively or one-shot. |
+| `stc` / `pde-to-st` | Turn a decomposition into a Structural Tension Chart / Four Questions. |
+| `chart` | Build and review structural tension charts by hand. |
+| `schema` · `validate` | Design and validate NCP schemas and story structures. |
+| `trace` | Open correlation traces across the wider narrative-intelligence stack. |
+| `skill` | Install miaco's packaged agent skill into your workspace. |
+
+---
+
+## 🌌 Why it's shaped this way — the Three Universes
+
+miaco is the **Engineering** eye of a three-part family. Each tool sees the same work through a different lens:
+
+| Universe | Voice | The question it holds |
+|---|---|---|
+| 🔧 **Engineering** | **Mia** *(miaco)* | Is the structure sound? Is the intent clear? |
+| 📖 **Story** | Miette *(miatel)* | Does the arc cohere? Do the themes thread? |
+| 🙏 **Ceremony** | Ava8 *(miawa)* | Is the work honored? Is there a pause to reflect? |
+
+miaco holds the **structural tension** between *Desired Outcome* and *Current Reality* and treats it as generative — a force to create *with*, never a problem to make disappear.
+
+---
+
+## 🧭 Navigate
+
+- **[COMMANDS.md](./COMMANDS.md)** — what you ask each command, and what it gives back
+- **[STRATEGIES.md](./STRATEGIES.md)** — the three decomposition strategies in depth
+
+---
+
+*miaco: where a prompt stops being a wish and becomes a structure you can build from.*
