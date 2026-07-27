@@ -4,6 +4,8 @@ A field guide to the miaco surface, written from the user's chair: *what you wan
 
 Every command prints its own options with `miaco <command> --help`. This page is about the *experience*, not the flag list.
 
+Anywhere a command takes `--pde` or `--parent`, hand it either the bare UUID or the PDE folder name exactly as it sits on disk (`2607271430--<uuid>`). Tab-complete the folder, paste it, move on.
+
 ---
 
 ## The decomposition loop
@@ -25,6 +27,27 @@ miaco decompose get <id>                      # reopen one by id
 **You get back** a PDE folder holding your prompt split into primary intent, secondary intents, the Four Directions, an ordered action stack, and — crucially — **ambiguity flags** naming what was vague. Choose *how* it decomposes with `--strategy` (see [STRATEGIES.md](./STRATEGIES.md)) and *which model* with `--engine`.
 
 > 🌸 This is where the wish becomes a map. The flags it raises aren't complaints — they're the next questions worth asking.
+
+---
+
+### `decompose composition` — read what you recorded
+
+> *"I recorded hours of thinking out loud. Show me what's in there."*
+
+```bash
+miaco decompose composition ./my-composition             # read it, offline
+miaco decompose composition ./my-composition --segments  # show the moves inside each one
+miaco decompose composition ./my-composition --index 3 --full
+miaco decompose composition ./my-composition --run       # decompose each one for real
+```
+
+**You get back** every transcription in the composition read as its own unit: what form it takes, what its label declared, how many segments it divides into and what move the speaker makes in each, likely mishearings flagged as advisory, and the strategy that form calls for — a request routes to `standard`, a long monologue to `iterative-refinement`, more than one voice to `adversarial-consensus`. Override the routing with `--strategy`.
+
+That read costs nothing: no engine, no network, no API key. It runs on a phone in a field. Add `--run` to decompose each transcription through an engine — one PDE per entry, `--dry-run` first to see what would be sent, `--parent` to nest them all under a tree you already have.
+
+**It reads your composition; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from. The composition folder belongs to whoever recorded it and comes back untouched.
+
+> 🌸 The recording already knew what it wanted — it just said it in one long breath, walking. This is the command that listens all the way to the end before it answers.
 
 ---
 
