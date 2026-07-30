@@ -30,22 +30,29 @@ miaco decompose get <id>                      # reopen one by id
 
 ---
 
-### `decompose composition` — read what you recorded
+### `decompose artefact` — read what you recorded
 
 > *"I recorded hours of thinking out loud. Show me what's in there."*
 
 ```bash
-miaco decompose composition ./my-composition             # read it, offline
-miaco decompose composition ./my-composition --segments  # show the moves inside each one
-miaco decompose composition ./my-composition --index 3 --full
-miaco decompose composition ./my-composition --run       # decompose each one for real
+miaco decompose artefact ./my-recording             # read it, offline
+miaco decompose artefact ./my-recording --segments  # show the moves inside each one
+miaco decompose artefact ./my-recording --index 3 --full
+miaco decompose artefact ./my-recording --run       # decompose each one for real
 ```
 
-**You get back** every transcription in the composition read as its own unit: what form it takes, what its label declared, how many segments it divides into and what move the speaker makes in each, likely mishearings flagged as advisory, and the strategy that form calls for — a request routes to `standard`, a long monologue to `iterative-refinement`, more than one voice to `adversarial-consensus`. Override the routing with `--strategy`.
+**`composition` still works, and always will.** It was this command's name until the
+name was corrected, so `miaco decompose composition ./my-recording` does exactly
+what the line above it does — same command, two names. What you point it at is a
+folder of recordings and their transcriptions: an **artefact**. An artefact may
+*become* a composition; it does not start as one. The manifest inside it is still
+called `composition.json`, and nothing about the file changed.
+
+**You get back** every transcription in the artefact read as its own unit: what form it takes, what its label declared, how many segments it divides into and what move the speaker makes in each, likely mishearings flagged as advisory, and the strategy that form calls for — a request routes to `standard`, a long monologue to `iterative-refinement`, more than one voice to `adversarial-consensus`. Override the routing with `--strategy`.
 
 That read costs nothing: no engine, no network, no API key. It runs on a phone in a field. Add `--run` to decompose each transcription through an engine — one PDE per entry, `--dry-run` first to see what would be sent, `--parent` to nest them all under a tree you already have.
 
-**It reads your composition; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from. The composition folder belongs to whoever recorded it and comes back untouched.
+**It reads your artefact; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from — including which folder it was read from. The artefact folder belongs to whoever recorded it and comes back untouched.
 
 > 🌸 The recording already knew what it wanted — it just said it in one long breath, walking. This is the command that listens all the way to the end before it answers.
 

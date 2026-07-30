@@ -201,7 +201,7 @@ cat .pde/2605011430--<uuid>/meta.json | jq '.strategy_warnings'
 
 3. **Fallback chain:** The Copilot rate-limit fallback chain (`--fallback-provider`) is **only active for `standard`**. Non-standard strategies disable fallback to avoid mixing engines mid-strategy.
 
-4. **Automatic selection is scoped to one command:** for `decompose run` you choose the strategy explicitly via `--strategy` — miaco does not auto-detect prompt complexity. Only `decompose composition` routes a strategy on your behalf, from the form of each transcription, and it prints the reason so you can override it.
+4. **Automatic selection is scoped to one command:** for `decompose run` you choose the strategy explicitly via `--strategy` — miaco does not auto-detect prompt complexity. Only `decompose artefact` (formerly `decompose composition`, still accepted) routes a strategy on your behalf, from the form of each transcription, and it prints the reason so you can override it.
 
 5. **Determinism:** Multi-pass and dual-framing strategies amplify LLM non-determinism. Two runs of the same prompt with the same strategy may produce different reconciled results.
 
