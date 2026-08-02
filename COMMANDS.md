@@ -19,12 +19,18 @@ These are the commands you move through, in order, to take a raw prompt all the 
 ```bash
 miaco decompose run -p "<your prompt>"
 miaco decompose run -p @./prompt.md           # read the prompt from a file
+miaco decompose run -P ./prompt.md            # …same thing, as a flag
+miaco decompose run -p "<prompt>" -w ~/repos/where-this-belongs
 miaco decompose run -p "<prompt>" --strategy iterative-refinement
 miaco decompose list                          # see past decompositions
 miaco decompose get <id>                      # reopen one by id
 ```
 
 **You get back** a PDE folder holding your prompt split into primary intent, secondary intents, the Four Directions, an ordered action stack, and — crucially — **ambiguity flags** naming what was vague. Choose *how* it decomposes with `--strategy` (see [STRATEGIES.md](./STRATEGIES.md)) and *which model* with `--engine`.
+
+**`-w` names the vessel** — the directory whose `.pde/` will hold the result. miaco refuses a temp path (`/tmp`, `/var/tmp`, your system temp dir) no matter how it was named, and refuses an implicit `cwd` that isn't a git working tree: with no `-w`, that's just wherever your shell happened to be, and nothing written there would be committed or recoverable. A vessel you name yourself is honoured, temp aside.
+
+**Nest a decomposition under one you already have** with `--parent <uuid>` — or hand it the PDE folder name exactly as it sits on disk, `2607271430--<uuid>`, prefix and all.
 
 > 🌸 This is where the wish becomes a map. The flags it raises aren't complaints — they're the next questions worth asking.
 
@@ -53,6 +59,8 @@ called `composition.json`, and nothing about the file changed.
 That read costs nothing: no engine, no network, no API key. It runs on a phone in a field. Add `--run` to decompose each transcription through an engine — one PDE per entry, `--dry-run` first to see what would be sent, `--parent` to nest them all under a tree you already have.
 
 **It reads your artefact; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from — including which folder it was read from. The artefact folder belongs to whoever recorded it and comes back untouched.
+
+If the manifest classifies its own contents as unsafe-or-ambiguous, the read stops and says so. `--force` proceeds anyway — the flag exists so that reading past a warning is something you chose, never something that happened quietly.
 
 > 🌸 The recording already knew what it wanted — it just said it in one long breath, walking. This is the command that listens all the way to the end before it answers.
 
@@ -139,6 +147,24 @@ miaco pde-to-st run --pde <uuid>   # → the Structural Thinking Four Questions
 
 ---
 
+### `executor` — hand the work to someone else
+
+> *"I've understood this thoroughly. Now package it so another agent can act on it."*
+
+```bash
+miaco executor prepare --pde <uuid>
+miaco executor prepare --pde <uuid> --status complete
+miaco executor prepare --pde <uuid> --gate "human reviews the migration plan"
+```
+
+**You get back** two files written into the PDE folder: `EXECUTOR-PROMPT.md` to read, and `executor-prompt.json` to feed a machine. Together they carry the decomposition, the clarifications, the memory it gathered and the artifacts it produced — folded into one briefing an executing agent can be handed cold.
+
+`--status` says how finished the thinking is (`complete`, `partial`, `blocked`, `deferred`, `superseded`) so the receiver knows what they're holding. **`--gate` writes a human checkpoint into the briefing** — a point the executor must stop at and wait for a person. Repeat it for as many as the work deserves.
+
+> 🌸 A decomposition kept to yourself is a private clarity. This is the command that makes it travel — with its uncertainties still attached, which is the only honest way to pass work along.
+
+---
+
 ## The engineering toolkit
 
 Standalone command families for the wider engineering world — useful with or without the decomposition loop.
@@ -202,6 +228,23 @@ miaco skill install --global     # into ~/.agents/skills/miaco
 ```
 
 **You get back** miaco's own agent skill dropped into your workspace, so a coding agent knows how to drive miaco.
+
+---
+
+### `set` — stop retyping your defaults
+
+> *"I always use the same engine. Remember it."*
+
+```bash
+miaco set default-engine claude
+miaco set default-model  sonnet
+miaco set qmd-provider   <provider>
+miaco set --list                 # what's configured now
+miaco set --path                 # where it's stored
+miaco set default-model --unset  # forget it again
+```
+
+**You get back** persistent defaults, held like `git config` in `~/.config/miaco/config.json`. A flag on the command line still wins; environment variables still win over the file. This is the floor, not a ceiling.
 
 ---
 

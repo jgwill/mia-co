@@ -94,18 +94,51 @@ miaco decompose run -p "<prompt>" --strategy adversarial-consensus
 
 ---
 
+## 📦 Where the decomposition lands — name your vessel
+
+A PDE is a **record of how a prompt was understood**. It is chronicle material, not scratch
+output, so it matters where it is written. The directory you point miaco at is its **vessel**;
+the `.pde/` folder is created there.
+
+```bash
+miaco decompose run -p "<prompt>" -w ~/repos/the-repo-this-belongs-to
+```
+
+miaco refuses the two ways a decomposition gets lost silently:
+
+| It refuses | Why |
+|---|---|
+| **A temp path** — `/tmp`, `/var/tmp`, your system temp dir | Erased without announcement. Refused however you named it, `-w` included. |
+| **An implicit `cwd` that isn't a git working tree** | With no `-w`, the vessel is just wherever your shell happened to be. If that place can't commit, nothing there is recoverable. |
+
+A vessel you name explicitly is your decision and is honoured — temp aside. Decomposing from
+inside a repository you control always works.
+
+> 🌸 The refusal is a kindness. Nothing is more quietly lost than a careful reading of your own
+> intention, written to a folder that gets swept at midnight.
+
+---
+
 ## 🧩 Bring your own engine
 
 Every decomposition runs on the model *you* choose — cloud or local. Pick once with a flag, or set `MIACO_DEFAULT_ENGINE` to make it the default:
 
 ```
-copilot · claude · gemini · codex · pva · hermes · ollama · opencode
+copilot · claude · gemini · codex · pi · pva · hermes · ollama · opencode
 ```
 
-- **Cloud agents** (`copilot`, `claude`, `gemini`, `codex`, `pva`, `hermes`) capture and resume their sessions, so `continue` and `steer` pick up exactly where you left off.
+- **Cloud agents** (`copilot`, `claude`, `gemini`, `codex`, `pi`, `pva`, `hermes`) capture and resume their sessions, so `continue` and `steer` pick up exactly where you left off.
 - **Local agents** (`ollama`, `opencode`) keep the whole loop on your machine — no prompt ever leaves the host.
 
 `miaco --help` lists every engine and its tuning knobs with their current values. You rarely need more than `--engine`.
+
+Pick your default once and stop typing it:
+
+```bash
+miaco set default-engine claude
+miaco set default-model  sonnet
+miaco set --list
+```
 
 ---
 
@@ -121,10 +154,12 @@ Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each
 | `clarify` | Generate a clarification pass for the placeholders in a PDE tree. |
 | `continue` / `steer` | Resume a PDE session and drive the engine — interactively or one-shot. |
 | `stc` / `pde-to-st` | Turn a decomposition into a Structural Tension Chart / Four Questions. |
+| `executor` | Package a PDE into a briefing another agent can be handed and act on. |
 | `chart` | Build and review structural tension charts by hand. |
 | `schema` · `validate` | Design and validate NCP schemas and story structures. |
 | `trace` | Open correlation traces across the wider narrative-intelligence stack. |
 | `skill` | Install miaco's packaged agent skill into your workspace. |
+| `set` | Persist your defaults — engine, model, QMD provider — like `git config`. |
 
 ---
 
