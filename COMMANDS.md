@@ -60,6 +60,8 @@ That read costs nothing: no engine, no network, no API key. It runs on a phone i
 
 **It reads your artefact; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from — including which folder it was read from. The artefact folder belongs to whoever recorded it and comes back untouched.
 
+That promise is enforced, not merely intended: `--run` refuses a vessel that is the artefact or anywhere inside it — including the one you get by default, which is simply wherever your shell happens to be. Standing in a recording folder and running `--run` will tell you so and stop. Name a vessel outside it with `-w`.
+
 If the manifest classifies its own contents as unsafe-or-ambiguous, the read stops and says so. `--force` proceeds anyway — the flag exists so that reading past a warning is something you chose, never something that happened quietly.
 
 > 🌸 The recording already knew what it wanted — it just said it in one long breath, walking. This is the command that listens all the way to the end before it answers.
