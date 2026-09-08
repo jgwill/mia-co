@@ -30,6 +30,21 @@ miaco decompose get <id>                      # reopen one by id
 
 **`-w` names the vessel** — the directory whose `.pde/` will hold the result. miaco refuses a temp path (`/tmp`, `/var/tmp`, your system temp dir) no matter how it was named, and refuses an implicit `cwd` that isn't a git working tree: with no `-w`, that's just wherever your shell happened to be, and nothing written there would be committed or recoverable. A vessel you name yourself is honoured, temp aside.
 
+**Every folder records where it came from.** `meta.json` carries an `origin` block naming the account, the machine, the container if there is one, the commit your vessel sat on, and whether a person or an agent typed the command:
+
+```json
+"origin": {
+  "user": "mia",
+  "host": "gaia",
+  "platform": "linux",
+  "miaco_version": "0.16.0",
+  "git": { "commit": "9ed30f0…", "branch": "main", "dirty": true },
+  "invoked_by": { "kind": "agent", "evidence": ["env:CLAUDECODE", "no-tty:stdin"] }
+}
+```
+
+It is stamped once, when the folder is first written, and never rewritten afterwards — re-running an engine against the same folder does not change who made it. `dirty` counts modified tracked files only, since the `.pde/` folder being written is itself untracked. `invoked_by` shows its working: the `evidence` list is what the verdict was read from, and a signal miaco does not recognise gives `"unknown"` rather than a guess. Two environment variables adjust it where a probe cannot know better — `MIACO_INVOKED_BY=human|agent` states the answer outright, and `MIACO_CONTAINER_IMAGE` names the image, which nothing inside a container can read for itself.
+
 **Nest a decomposition under one you already have** with `--parent <uuid>` — or hand it the PDE folder name exactly as it sits on disk, `2607271430--<uuid>`, prefix and all.
 
 > 🌸 This is where the wish becomes a map. The flags it raises aren't complaints — they're the next questions worth asking.
