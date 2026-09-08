@@ -156,7 +156,8 @@ Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each
 | `stc` / `pde-to-st` | Turn a decomposition into a Structural Tension Chart / Four Questions. |
 | `executor` | Package a PDE into a briefing another agent can be handed and act on. |
 | `chart` | Build and review structural tension charts by hand. |
-| `schema` · `validate` | Design and validate NCP schemas and story structures. |
+| `schema` | Show the decomposition contract — its parts, its stages — and validate a PDE against it. |
+| `check` | Type-check the project with `tsc`, or refuse and say why. |
 | `trace` | Open correlation traces across the wider narrative-intelligence stack. |
 | `skill` | Install miaco's packaged agent skill into your workspace. |
 | `set` | Persist your defaults — engine, model, QMD provider — like `git config`. |

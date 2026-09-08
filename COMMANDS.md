@@ -202,22 +202,47 @@ miaco chart list
 
 ---
 
-### `schema` · `validate` — design and check structure
+### `schema` — what a decomposition is made of
 
-> *"Design an NCP schema, and make sure my data honors it."*
+> *"Show me the contract every decomposition is held to, and tell me whether this one satisfies it."*
 
 ```bash
-miaco schema design --name "HeroJourney" --type story
-miaco schema list
-miaco schema export --name hero_journey --output ./schema.json
-
-miaco validate ncp --file ./story.ncp.json --strict
-miaco validate beat --file ./beat.json
-miaco validate coherence --session <id>
-miaco validate types --project ./tsconfig.json
+miaco schema parts                          # the seven parts, and which stage fills each
+miaco schema stages                         # coarse → directions → actions → calibration
+miaco schema show --stage coarse            # the JSON Schema itself
+miaco schema show --strategy standard -o full.schema.json
+miaco schema validate ./.pde/<folder>/pde-<id>.json
+miaco schema validate <file> --stage coarse --strict
 ```
 
-**You get back** schemas you can design, list, and export, plus validators that check NCP structure, story beats, narrative coherence, and TypeScript types.
+**You get back** the decomposition contract, read from the schemas at runtime rather than from a table someone wrote down: seven parts with their fields and bounds, the four stages `--strategy iterative-refinement` runs in order, and which schema each strategy requests.
+
+`schema validate` checks a stored PDE against that contract. A stored artifact nests the seven parts under `result`, and the command unwraps the envelope before validating, so you point it at the file on disk rather than at a fragment of it.
+
+**Exit codes**, because this is a command you gate a pipeline on:
+
+| code | meaning |
+|---|---|
+| `0` | conforms to the requested stage schema |
+| `1` | is a PDE artifact and fails the schema — every violation is listed with its JSON path |
+| `2` | unreadable, absent, malformed JSON, or not a PDE artifact at all |
+
+It also reports advisories: an `actionStack` dependency naming a step that is not in the stack, a direction arm left empty, an empty `ambiguities` on a complete decomposition, confidence values that are all exactly 0 or 1. These pass by default and fail under `--strict`.
+
+**Retired.** `schema design`, `list`, `export` and `migrate` described NCP — the Narrative Context Protocol — whose entities are story beats, character arcs and thematic threads. Those belong to `miatel`, the Story World CLI, and the commands now name their replacement and exit non-zero. So does `miaco validate`, in all four of its forms: `ncp`, `beat` and `coherence` point at `miatel`, and `types` points at `miaco check`.
+
+---
+
+### `check` — type-check the project, or say why it cannot
+
+```bash
+miaco check                                 # nearest tsconfig.json, searching upward
+miaco check --project ./packages/api/tsconfig.json
+```
+
+**You get back** the result of a real `tsc --noEmit`, and one of exactly three outcomes: `0` clean, `1` with the errors printed, `2` when it could not check — no `tsconfig.json` in reach, or TypeScript not installed for that project.
+
+The third outcome is the point. `miaco check && npm run deploy` is only worth writing if the command can refuse.
 
 ---
 
