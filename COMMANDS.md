@@ -56,28 +56,42 @@ It is stamped once, when the folder is first written, and never rewritten afterw
 > *"I recorded hours of thinking out loud. Show me what's in there."*
 
 ```bash
-miaco decompose artefact ./my-recording             # read it, offline
-miaco decompose artefact ./my-recording --segments  # show the moves inside each one
+miaco decompose artefact <episode>/captures                  # every take in the episode
+miaco decompose artefact <episode>/captures/260825114010     # one take
+miaco decompose artefact ./my-recording --segments           # show the moves inside each one
 miaco decompose artefact ./my-recording --index 3 --full
-miaco decompose artefact ./my-recording --run       # decompose each one for real
+miaco decompose artefact ./my-recording --run                # decompose each one for real
 ```
+
+**Point it at what you actually have.** Three things work, and miaco tells them
+apart by what the folder declares, never by what it is named:
+
+| you have | miaco does |
+|---|---|
+| one capture folder — `capture.json`, `transcription.json`, a `.txt` per language | reads every transcription in it |
+| an episode's `captures/` directory | walks the capture folders beneath it, in the order they were recorded |
+| a legacy composition folder — one `composition.json` with its transcriptions inline in `texts[]` | reads it exactly as it always has |
+
+Until 0.18.0 only the last of those was reachable. A command pointed at a capture
+recorded that week reported an empty artefact and exited 0 — a silent nothing
+rather than an error, which is the worst of both. Both shapes now produce the
+same reading: same form inference, same segmentation, same intent, same routing.
 
 **`composition` still works, and always will.** It was this command's name until the
 name was corrected, so `miaco decompose composition ./my-recording` does exactly
-what the line above it does — same command, two names. What you point it at is a
+what the lines above do — same command, two names. What you point it at is a
 folder of recordings and their transcriptions: an **artefact**. An artefact may
-*become* a composition; it does not start as one. The manifest inside it is still
-called `composition.json`, and nothing about the file changed.
+*become* a composition; it does not start as one.
 
 **You get back** every transcription in the artefact read as its own unit: what form it takes, what its label declared, how many segments it divides into and what move the speaker makes in each, likely mishearings flagged as advisory, and the strategy that form calls for — a request routes to `standard`, a long monologue to `iterative-refinement`, more than one voice to `adversarial-consensus`. Override the routing with `--strategy`.
 
 That read costs nothing: no engine, no network, no API key. It runs on a phone in a field. Add `--run` to decompose each transcription through an engine — one PDE per entry, `--dry-run` first to see what would be sent, `--parent` to nest them all under a tree you already have.
 
-**It reads your artefact; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from — including which folder it was read from. The artefact folder belongs to whoever recorded it and comes back untouched.
+**It reads your artefact; it never writes to it.** Everything produced lands in `.pde/`, carrying provenance back to the exact transcription it came from — including which folder it was read from. Walking an episode's `captures/`, each PDE names the take it came from, not the directory that held them all. The artefact folder belongs to whoever recorded it and comes back untouched.
 
 That promise is enforced, not merely intended: `--run` refuses a vessel that is the artefact or anywhere inside it — including the one you get by default, which is simply wherever your shell happens to be. Standing in a recording folder and running `--run` will tell you so and stop. Name a vessel outside it with `-w`.
 
-If the manifest classifies its own contents as unsafe-or-ambiguous, the read stops and says so. `--force` proceeds anyway — the flag exists so that reading past a warning is something you chose, never something that happened quietly.
+If a legacy composition's manifest classifies its own contents as unsafe-or-ambiguous, the read stops and says so. `--force` proceeds anyway — the flag exists so that reading past a warning is something you chose, never something that happened quietly.
 
 > 🌸 The recording already knew what it wanted — it just said it in one long breath, walking. This is the command that listens all the way to the end before it answers.
 

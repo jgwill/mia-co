@@ -148,7 +148,7 @@ Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each
 
 | Command | The experience |
 |---|---|
-| `decompose artefact` | Read an artefact's transcriptions by form and intent — offline until you say `--run`. Old name `composition` still works. |
+| `decompose artefact` | Read an artefact's transcriptions by form and intent — one capture folder, a whole episode's `captures/`, or a legacy composition. Offline until you say `--run`. Old name `composition` still works. |
 | `qmd` | Search your shared markdown memory directly — keyword or semantic. |
 | `qmd-inquiry-decompose` | Auto-resolve a PDE's flagged ambiguities against that memory. |
 | `clarify` | Generate a clarification pass for the placeholders in a PDE tree. |
