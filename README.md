@@ -152,6 +152,7 @@ Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each
 | `qmd` | Search your shared markdown memory directly — keyword or semantic. |
 | `qmd-inquiry-decompose` | Auto-resolve a PDE's flagged ambiguities against that memory. |
 | `clarify` | Generate a clarification pass for the placeholders in a PDE tree. |
+| `memory` | Ask the medicine wheel's memory what was already said about a PDE's open items, with sources. |
 | `continue` / `steer` | Resume a PDE session and drive the engine — interactively or one-shot. |
 | `stc` / `pde-to-st` | Turn a decomposition into a Structural Tension Chart / Four Questions. |
 | `executor` | Package a PDE into a briefing another agent can be handed and act on. |

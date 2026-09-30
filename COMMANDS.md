@@ -125,6 +125,21 @@ miaco qmd-inquiry-decompose formulate --pde <uuid>    # let the session write th
 
 ---
 
+### `memory` — ask what was already said about a PDE
+
+> *"We talked about this in a circle. Use what was decided."*
+
+```bash
+miaco memory scope --pde <uuid> --within 2026-09-23-episode-351-a-benchmark   # what the scope reaches, no engine
+miaco memory resolve --pde <uuid>                                            # ask memory about every open item
+```
+
+**You get back** `memory-resolution.md` and `.json` beside the PDE. Each ambiguity, open action, expected output and *Still Open* clarification is marked **answered**, **inferred** or **open**, and every answer names the wheel records it rests on: the ceremony, the beat, who said it. An answer with no memory source stays open. `clarify` reads the file when it exists.
+
+The memory is the medicine wheel's, whatever provider sits behind it. miaco hands the engine the wheel's MCP server with its read tools only, so the only setting is `MW_API_URL`. The scope is the PDE itself (`pde:<root uuid>`) plus what `--within` adds: a circle (`circle:…`), an episode, one person (`node:human:…`), a ceremony or another subject. `--within` is kept in `meta.json`. Engines: `claude`, `copilot`.
+
+---
+
 ### `clarify` — settle the obvious placeholders
 
 > *"Resolve the parts that don't even need research."*
@@ -158,9 +173,10 @@ miaco continue -p "<new prompt>" --parent <uuid>  # start a fresh child, then co
 ```bash
 miaco steer --pde <uuid> -p "Implement the next action step" --yolo
 miaco steer --pde <uuid> -p "<prompt>" --json     # machine-readable result
+miaco steer --pde <uuid> --memory -p "What did the circle decide about scoring?"
 ```
 
-**You get back** the engine's response to a single non-interactive prompt, run inside the PDE's existing session and saved as an artifact. Ideal for scripts and one-shot nudges.
+**You get back** the engine's response to a single non-interactive prompt, run inside the PDE's existing session and saved as an artifact. Ideal for scripts and one-shot nudges. With `--memory`, the agent can ask the medicine wheel's memory within the PDE's scope while it answers (see `memory`).
 
 ---
 
