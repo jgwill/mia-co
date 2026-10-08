@@ -1,4 +1,4 @@
-# 🧠 mia-co — the Engineering-World terminal agent
+# 🧠 mia-co — experimental intent exploration terminal agent
 
 **miaco** (mee-AH-koh) is the command-line embodiment of **Mia, the Recursive DevOps Architect**. You hand it a messy, half-formed prompt; it hands you back a *structured decomposition* you can reason about, search against your own memory, and advance into real work.
 
@@ -144,7 +144,7 @@ miaco set --list
 
 ## 🗂️ Everything else miaco offers
 
-Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each is one command family — full usage lives in **[COMMANDS.md](./COMMANDS.md)**.
+Beyond the decomposition loop, miaco carries a toolkit that takes your input to a plan. Each is one command family — full usage lives in **[COMMANDS.md](./COMMANDS.md)**.
 
 | Command | The experience |
 |---|---|
@@ -165,11 +165,11 @@ Beyond the decomposition loop, miaco carries the engineering-world toolkit. Each
 
 ---
 
-## 🌌 Why it's shaped this way — the Three Universes
+## 🌌 Why it's shaped this way — the Three Perspectives
 
 miaco is the **Engineering** eye of a three-part family. Each tool sees the same work through a different lens:
 
-| Universe | Voice | The question it holds |
+| Perspective | Voice | The question it holds |
 |---|---|---|
 | 🔧 **Engineering** | **Mia** *(miaco)* | Is the structure sound? Is the intent clear? |
 | 📖 **Story** | Miette *(miatel)* | Does the arc cohere? Do the themes thread? |

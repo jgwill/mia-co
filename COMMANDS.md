@@ -214,7 +214,7 @@ miaco executor prepare --pde <uuid> --gate "human reviews the migration plan"
 
 ## The engineering toolkit
 
-Standalone command families for the wider engineering world — useful with or without the decomposition loop.
+Standalone command families for the wider engineering work — useful with or without the decomposition loop.
 
 ### `chart` — structural tension charts by hand
 
@@ -259,7 +259,7 @@ miaco schema validate <file> --stage coarse --strict
 
 It also reports advisories: an `actionStack` dependency naming a step that is not in the stack, a direction arm left empty, an empty `ambiguities` on a complete decomposition, confidence values that are all exactly 0 or 1. These pass by default and fail under `--strict`.
 
-**Retired.** `schema design`, `list`, `export` and `migrate` described NCP — the Narrative Context Protocol — whose entities are story beats, character arcs and thematic threads. Those belong to `miatel`, the Story World CLI, and the commands now name their replacement and exit non-zero. So does `miaco validate`, in all four of its forms: `ncp`, `beat` and `coherence` point at `miatel`, and `types` points at `miaco check`.
+**Retired.** `schema design`, `list`, `export` and `migrate` described NCP — the Narrative Context Protocol — whose entities are story beats, character arcs and thematic threads. Those belong to `miatel`, the story-perspective CLI, and the commands now name their replacement and exit non-zero. So does `miaco validate`, in all four of its forms: `ncp`, `beat` and `coherence` point at `miatel`, and `types` points at `miaco check`.
 
 ---
 
